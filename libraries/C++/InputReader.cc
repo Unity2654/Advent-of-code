@@ -14,17 +14,7 @@ namespace libcpp{
         return {};
     }
 
-    template<typename T>
-    std::vector<T> ReadPatterns(std::string path, std::regex pattern){
-        return {};
-    }
-
     std::vector<std::string> ReadPatterns(std::string path, std::string pattern){
-        return {};
-    }
-
-    template<typename T>
-    std::vector<T> ReadPatterns(std::string path, std::string pattern){
         return {};
     }
 }

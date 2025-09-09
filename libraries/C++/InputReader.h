@@ -23,21 +23,27 @@ namespace libcpp {
     std::vector<std::string> ReadPatterns(std::string path, std::regex pattern);
 
     /**
-     * Templated function of ReadPatterns that attempts to convert elements in the given type
-     */
-    template<typename T>
-    std::vector<T> ReadPatterns(std::string path, std::regex pattern);
-
-    /**
      * Similar to the function above, but the pattern is given as a string to avoid including regex
      */
     std::vector<std::string> ReadPatterns(std::string path, std::string pattern);
+
+    //// Template implementations ////
+
+    /**
+     * Templated function of ReadPatterns that attempts to convert elements in the given type
+     */
+    template<typename T>
+    std::vector<T> ReadPatterns(std::string path, std::regex pattern){
+        return {};
+    };
 
     /**
      * Templated function of the overload of ReadPatterns that attempts to convert elements in the given type
      */
     template<typename T>
-    std::vector<T> ReadPatterns(std::string path, std::string pattern);
+    std::vector<T> ReadPatterns(std::string path, std::string pattern){
+        return {};
+    }
 }
 
 
