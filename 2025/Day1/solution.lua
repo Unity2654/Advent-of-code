@@ -44,40 +44,39 @@ end
 
 dial = 50
 
-function getZeroHits(number)
-    local c = 0
-    while number > max do
-        c = c+1
-        number = number - max
-    end
-    while number < 0 do
-        c = c+1
-        number = number + max
-    end
-    return c
+function doTurn(direction, number)
+	c = 0
+	for i = 1,number do
+		if direction == "L" then
+			dial = dial - 1
+			if dial < 0 then
+				dial = max - 1
+			end
+		else
+			dial = dial + 1
+			if dial == max then
+				dial = 0
+			end
+		end
+		if dial == 0 then
+			c = c + 1
+		end
+	end
+	return c
 end
 
-function rotateMore(line)
-    if line == "" then
-        return 0
-    end
-    local direction = string.sub(line,1,1)
-    local totalTimes = tonumber(string.sub(line,2))
-    local hitzero = 0
-    if direction == "L" then
-        hitzero = getZeroHits(dial - totalTimes)
-        dial = (dial - totalTimes) % max
-    else
-        hitzero = getZeroHits(dial + totalTimes)
-        dial = (dial + totalTimes) % max
-    end
-    return hitzero
+function countZeros(line)
+	if line == "" then
+		return 0
+	end
+	local dir = string.sub(line,1,1)
+	local times = tonumber(string.sub(line,2))
+	res = doTurn(dir,times)
+	return res
 end
 
 psswd = 0
-
-for _,i in pairs(lines) do
-    psswd = psswd + rotateMore(i)
+for _,l in pairs(lines) do
+	psswd = psswd + countZeros(l)
 end
-
 print(psswd)
