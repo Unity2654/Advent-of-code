@@ -12,5 +12,18 @@ A directory contains the source code for each day, and maybe additionnal files. 
 
 To follow the rules of the event, the said text files are not included within the repository
 
+## Libraries
+
+A directory containing small utilities I sometime use for multiple solutions.
+
+All libraries are made by me unless specified otherwise.
+
+### Libraries credits :
+
+Lua/PriorityQueue.lua : unknown author. If you are the author of this software, please contact me for credit.
+
 # 2024
 Solved in 2024 using the LUA language.
+
+# 2025
+Currently solving 2025 using the LUA language.
