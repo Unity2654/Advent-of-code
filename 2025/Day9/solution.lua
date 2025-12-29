@@ -1,6 +1,6 @@
 -- Parsing the input
 corners = {}
-f = io.open("smallPuzzle.txt")
+f = io.open("puzzle.txt")
 text = f:read("*all")
 for x,y in text:gmatch("(%d+),(%d+)") do
     table.insert(corners, {tonumber(x),tonumber(y)})
@@ -50,16 +50,24 @@ end
 -- sorting the edges coordinates
 xAxis = {}
 yAxis = {}
+xAxisSet = {}
+yAxisSet = {}
 
 for _,c in pairs(corners) do
-    table.insert(xAxis, c[1])
-    table.insert(yAxis, c[2])
+    if not xAxisSet[c[1]] then
+        table.insert(xAxis, c[1])
+        xAxisSet[c[1]] = true
+    end
+    if not yAxisSet[c[2]] then
+        table.insert(yAxis, c[2])
+        yAxisSet[c[2]] = true
+    end
 end
 
 table.sort(xAxis)
 table.sort(yAxis)
-maxX = xAxis[#xAxis]
-maxY = yAxis[#yAxis]
+maxX = xAxi#xAxis
+maxY = #yAxis
 
 
 -- Reducing the grid
@@ -70,7 +78,6 @@ for _,c in pairs(corners) do
 end
 
 -- Generating the grid
-
 grid = {}
 for i=1,maxY do
     grid[i] = {}
@@ -79,41 +86,108 @@ for i=1,maxY do
     end
 end
 
-
-for _,c in pairs(redCorners) do
-    x = c[1]
-    y = c[2]
-    grid[y][x] = "#"
-end
-
 for i,v in pairs(redCorners) do
-    for j = (i+1),(#redCorners+1) do
-        if j > #redCorners then
-            j = 1
-        end
-        v1 = redCorners[j]
-        if v1[1] == v[1] then
-            min = math.min(v1[2],v[2])
-            max = math.max(v1[2],v[2])
-            for k=min,max do
-                grid[k][v1[1]] = "#"
+    j = i + 1
+    if j > #redCorners then
+        j = 1
+    end
+    v1 = redCorners[j]
+
+    if v1[1] == v[1] then
+        min = math.min(v1[2],v[2])
+        max = math.max(v1[2],v[2])
+        for k=min,max do
+            if grid[k] then
+                if v[2] > v1[2] then
+                    grid[k][v1[1]] = "^"
+                else
+                    grid[k][v1[1]] = "v"
+                end
             end
-        else
-            min = math.min(v1[1],v[1])
-            max = math.max(v1[1],v[1])
-            print(min,max)
-            for k=min,max do
-                io.write("("..v1[2].." " ..k..") ")
+        end
+    else
+        min = math.min(v1[1],v[1])
+        max = math.max(v1[1],v[1])
+        for k=min,max do
+            if grid[v1[2]][k] == '.' then
                 grid[v1[2]][k] = "#"
             end
-            print()
         end
     end
 end
 
-for _,l in pairs(grid) do
-    for _,e in pairs(l) do
+-- Filling the grid
+for y=1,#grid do
+    ispip = false
+    for x = 1,(#grid[1]) do
+        if (not ispip) and grid[y][x] == "^" then
+            ispip = true
+        end
+        if ispip and grid[y][x] == "v" then
+            ispip = false
+        end
+        if ispip or grid[y][x] == "v" then
+            grid[y][x] = "#"
+        end
+    end
+end
+
+-- Utilities
+pipcache = {}
+
+function stringify(p)
+    return p[1].."_"..p[2]
+end
+
+function pip(point)
+    return grid[point[2]][point[1]] == "#"
+end
+
+function isRectInPoly(c1, c2)
+    local redc1 = {indexof(xAxis,c1[1]), indexof(yAxis,c1[2])}
+    local redc2 = {indexof(xAxis,c2[1]), indexof(yAxis,c2[2])}
+    for x = math.min(redc1[1], redc2[1]),math.max(redc1[1], redc2[1]) do
+        for y = math.min(redc1[2], redc2[2]),math.max(redc1[2], redc2[2]) do
+            if not pip({x,y}) then
+                return false
+            end
+        end
+    end
+    return true
+end
+
+function maxArea2()
+    local max = 0
+    local maxRect = {}
+    for _,v in pairs(corners) do
+        for _,v2 in pairs(corners) do
+            local area = calcArea(v,v2)
+            if area > max and isRectInPoly(v,v2) then
+                max = area
+                maxRect = {{v[1],v[2]},{v2[1],v2[2]}}
+            end
+        end
+    end
+
+    local c1 = maxRect[1]
+    local c2 = maxRect[2]
+    local redc1 = {indexof(xAxis,c1[1]), indexof(yAxis,c1[2])}
+    local redc2 = {indexof(xAxis,c2[1]), indexof(yAxis,c2[2])}
+    for x = math.min(redc1[1], redc2[1]),math.max(redc1[1], redc2[1]) do
+        for y = math.min(redc1[2], redc2[2]),math.max(redc1[2], redc2[2]) do
+            grid[y][x] = "O"
+        end
+    end
+
+    return max
+end
+
+print(maxArea2())
+
+for _,t in pairs(grid) do
+    for _,e in pairs(t) do
         io.write(e)
     end
     print()
 end
+
