@@ -11,7 +11,7 @@ end
 --
 
 function calcArea(v1,v2)
-    return math.abs(v1[1] - v2[1]+1) * math.abs(v1[2] - v2[2]+1 )
+    return math.abs(math.max(v1[1], v2[1]) - math.min(v1[1], v2[1]) + 1) * math.abs(math.max(v1[2], v2[2]) - math.min(v1[2], v2[2]) + 1)
 end
 
 function printVector(vector)
@@ -66,9 +66,8 @@ end
 
 table.sort(xAxis)
 table.sort(yAxis)
-maxX = xAxi#xAxis
+maxX = #xAxis
 maxY = #yAxis
-
 
 -- Reducing the grid
 redCorners = {}
@@ -133,8 +132,6 @@ for y=1,#grid do
 end
 
 -- Utilities
-pipcache = {}
-
 function stringify(p)
     return p[1].."_"..p[2]
 end
@@ -169,25 +166,8 @@ function maxArea2()
         end
     end
 
-    local c1 = maxRect[1]
-    local c2 = maxRect[2]
-    local redc1 = {indexof(xAxis,c1[1]), indexof(yAxis,c1[2])}
-    local redc2 = {indexof(xAxis,c2[1]), indexof(yAxis,c2[2])}
-    for x = math.min(redc1[1], redc2[1]),math.max(redc1[1], redc2[1]) do
-        for y = math.min(redc1[2], redc2[2]),math.max(redc1[2], redc2[2]) do
-            grid[y][x] = "O"
-        end
-    end
-
     return max
 end
 
 print(maxArea2())
-
-for _,t in pairs(grid) do
-    for _,e in pairs(t) do
-        io.write(e)
-    end
-    print()
-end
 
