@@ -1,70 +1,57 @@
-local function swap(table, i, i2)
-    local ati2 = table[i2]
-    table[i2] = table[i]
-    table[i] = ati2
+System = {}
+System.__index = System
+
+function System.new()
+	local newSystem = { }
+	setmetatable(newSystem, System)
+
+	newSystem.coefficients = { }
+	newSystem.results = { }
+
+	return newSystem
 end
 
-local function substract(table, i, i2, factor)
-    for j = 1,#table[i] do
-        table[i][j] = table[i][j] - table[i2][j] * factor
+function System:AddLine(coefficients, result)
+    table.insert(self.coefficients, coefficients)
+    table.insert(self.results, result)
+end
+
+function System:Add(index1, index2, factor)
+    if not factor then factor = 1 end
+    local target = self.coefficients[index1]
+    local source = self.coefficients[index2]
+    for i,_ in pairs(source) do
+        target[i] = target[i] + source[i] * factor
     end
+    self.results[index1] = self.results[index1] + self.results[index2] * factor
 end
 
-local function divide(table, i, factor)
-    for j = 1,#table[i] do
-        table[i][j] = table[i][j] / factor
+function System:Swap(index1, index2)
+    -- coefficients
+    local tmp = self.coefficients[index1]
+    self.coefficients[index1] = self.coefficients[index2]
+    self.coefficients[index2] = tmp
+
+    -- results
+    local tmp = self.results[index1]
+    self.results[index1] = self.results[index2]
+    self.results[index2] = tmp
+end
+
+function System:Multiply(index, factor)
+    local target = self.coefficients[index]
+    for i,_ in pairs(target) do
+        target[i] = target[i] * factor
     end
+    self.results[index] = self.results[index] * factor
 end
 
-local function findMax(table, row, min)
-    local max = nil
-    local imax = 0
-    for i=min,#table[row] do
-        if max == nil and math.abs(table[row][i]) > max then
-            imax = i
-            max = math.abs(table[row][i])
+function System:Print()
+    for i,e in pairs(self.coefficients) do
+        for _,c in pairs(e) do
+            io.write(c .. " ")
         end
+        io.write("| ")
+        print(self.results[i])
     end
-    return imax
 end
-
---[[
-h := 1 /* Initialization of the pivot row */
-k := 1 /* Initialization of the pivot column */
-
-while h ≤ m and k ≤ n:
-    /* Find the k-th pivot: */
-    i_max := argmax (i = h ... m, abs(A[i, k]))
-    if A[i_max, k] = 0:
-        /* No pivot in this column, pass to next column */
-        k := k + 1
-    else:
-        swap rows(h, i_max)
-        /* Do for all rows below pivot: */
-        for i = h + 1 ... m:
-            f := A[i, k] / A[h, k]
-            /* Fill with zeros the lower part of pivot column: */
-            A[i, k] := 0
-            /* Do for all remaining elements in current row: */
-            for j = k + 1 ... n:
-                A[i, j] := A[i, j] - A[h, j] * f
-        /* Increase pivot row and column */
-        h := h + 1
-        k := k + 1
-
-]]
-
-function Solve(lm, rm)
-    local n = #lm      -- n equations of m unknown
-    local m = #(lm[1])
-
-    local h = 1
-    local k = 1
-    while h<=m and k<=n do
-        local i_max = findMax(lm, k, h)
-
-    end
-
-    return lm
-end
-

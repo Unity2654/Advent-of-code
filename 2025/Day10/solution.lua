@@ -1,6 +1,6 @@
 require("Queues")
 require("PriorityQueue")
-require("Node")
+require("Gauss")
 -- Parsing the solution
 indicators = {}
 buttons = {}
@@ -128,7 +128,7 @@ function getVector(button, length)
     return v
 end
 
-function getEdges(buttons, length)
+function getVectors(buttons, length)
     local res = {}
     for _,b in pairs(buttons) do
         table.insert(res, getVector(b, length))
@@ -136,58 +136,14 @@ function getEdges(buttons, length)
     return res
 end
 
-function wAstar(start, stop, edges)
-    -- Initialisation
-    local toVisit = PriorityQueue.new(function(a,b) return a > b end)
-    toVisit:Add(start)
-    local parents = {}
-    local gScore = {}
-    local visited = {}
-    gScore[start] = 0
-
-    -- Algorithms
-    while toVisit:Size() > 0 do
-        local curr = toVisit:Pop()
-        print(curr:Serialize())
-        if curr:Equals(stop) then
-            return parents
-        end
-        visited[curr:Serialize()] = true
-        local neighbors = curr:GetNeighbors(edges)
-        for _,n in pairs(neighbors) do
-            local score = gScore[curr] + 1
-            if not gScore[n] or score < gScore[n] then
-                parents[n:Serialize()] = curr:Serialize()
-                gScore[n] = score
-                if not n:IsBeyond(stop) and not visited[n:Serialize()] then toVisit:Add(n, n:Distance(stop)) end
-            end
-        end
-    end
-    return nil
-end
-
-function getPathSize(start, stop, parents)
-    local l = 0
-    local curr = stop
-    while curr do
-        l = l + 1
-        curr = parents[curr]
-    end
-    return l-1
-end
-
 function Part2()
-    local sum = 0
     for i,req in pairs(requirements) do
-        local init = {}
-        for _,e in pairs(req) do table.insert(init, 0) end
-        local start = Node.new(init)
-        local stop = Node.new(req)
-        local edges = getEdges(buttons[i], #req)
-        local steps = wAstar(start, stop, edges)
-        sum = sum + getPathSize(start:Serialize(), stop:Serialize(), steps)
+        local sys = System.new()
+        local vec = getVectors(buttons[i], #req)
+        for i,r in pairs(req) do
+            sys:AddLine(vec[i], r)
+        end
     end
-    return sum
 end
 
 print(Part2())
