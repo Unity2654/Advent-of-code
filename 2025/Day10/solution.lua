@@ -1,5 +1,6 @@
 require("Queues")
-require("Gauss")
+require("PriorityQueue")
+require("Node")
 -- Parsing the solution
 indicators = {}
 buttons = {}
@@ -116,41 +117,77 @@ end
 --- Part 2
 --
 
-function generateVectors(buttons, Vsize)
-    local vectors = {}
-    for _,button in pairs(buttons) do
-        local vector = {}
-        for i = 1,Vsize do
-            vector[i] = 0
-        end
-        for _,b in pairs(button) do
-            vector[b+1] = 1
-        end
-        table.insert(vectors, vector)
+function getVector(button, length)
+    -- creating the vector
+    local v = {}
+    for i=1,length do table.insert(v,0) end
+    for _,e in pairs(button) do
+        v[e+1] = 1
     end
-    return vectors
+
+    return v
 end
 
-for i,req in pairs(requirements) do
-    vectors = generateVectors(buttons[i], #req)
-    for _,v in pairs(vectors) do
-        for _,c in pairs(v) do
-            io.write(c)
-        end
-        print()
+function getEdges(buttons, length)
+    local res = {}
+    for _,b in pairs(buttons) do
+        table.insert(res, getVector(b, length))
     end
-    print()
-
-    -- solving
-    Solve(vectors, req)
-    for _,v in pairs(vectors) do
-        for _,c in pairs(v) do
-            io.write(c)
-        end
-        print()
-    end
-    print()
+    return res
 end
 
+function wAstar(start, stop, edges)
+    -- Initialisation
+    local toVisit = PriorityQueue.new(function(a,b) return a > b end)
+    toVisit:Add(start)
+    local parents = {}
+    local gScore = {}
+    local visited = {}
+    gScore[start] = 0
 
+    -- Algorithms
+    while toVisit:Size() > 0 do
+        local curr = toVisit:Pop()
+        print(curr:Serialize())
+        if curr:Equals(stop) then
+            return parents
+        end
+        visited[curr:Serialize()] = true
+        local neighbors = curr:GetNeighbors(edges)
+        for _,n in pairs(neighbors) do
+            local score = gScore[curr] + 1
+            if not gScore[n] or score < gScore[n] then
+                parents[n:Serialize()] = curr:Serialize()
+                gScore[n] = score
+                if not n:IsBeyond(stop) and not visited[n:Serialize()] then toVisit:Add(n, n:Distance(stop)) end
+            end
+        end
+    end
+    return nil
+end
 
+function getPathSize(start, stop, parents)
+    local l = 0
+    local curr = stop
+    while curr do
+        l = l + 1
+        curr = parents[curr]
+    end
+    return l-1
+end
+
+function Part2()
+    local sum = 0
+    for i,req in pairs(requirements) do
+        local init = {}
+        for _,e in pairs(req) do table.insert(init, 0) end
+        local start = Node.new(init)
+        local stop = Node.new(req)
+        local edges = getEdges(buttons[i], #req)
+        local steps = wAstar(start, stop, edges)
+        sum = sum + getPathSize(start:Serialize(), stop:Serialize(), steps)
+    end
+    return sum
+end
+
+print(Part2())
