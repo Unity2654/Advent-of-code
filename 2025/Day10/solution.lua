@@ -124,7 +124,6 @@ function getVector(button, length)
     for _,e in pairs(button) do
         v[e+1] = 1
     end
-
     return v
 end
 
@@ -136,13 +135,24 @@ function getVectors(buttons, length)
     return res
 end
 
+function makeSystem(sys, vectors, req)
+    for i=1,#(vectors[1]) do
+        local line = {}
+        for _,v in pairs(vectors) do
+            table.insert(line, v[i])
+        end
+        sys:AddLine(line, req[i])
+    end
+end
+
 function Part2()
     for i,req in pairs(requirements) do
         local sys = System.new()
         local vec = getVectors(buttons[i], #req)
-        for i,r in pairs(req) do
-            sys:AddLine(vec[i], r)
-        end
+        makeSystem(sys, vec, req)
+        sys:Reduce()
+        sys:Print()
+        print()
     end
 end
 
