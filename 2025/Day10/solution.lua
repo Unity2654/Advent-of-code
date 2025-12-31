@@ -145,15 +145,38 @@ function makeSystem(sys, vectors, req)
     end
 end
 
+function arraySum(array)
+    local acc = 0
+    for _,e in pairs(array) do
+        acc = acc + e
+    end
+    return acc
+end
+
 function Part2()
+    local result = 0
     for i,req in pairs(requirements) do
+        --print("=====================================")
+        --print("================= "..i.." =================")
+        --print("=====================================")
         local sys = System.new()
         local vec = getVectors(buttons[i], #req)
         makeSystem(sys, vec, req)
-        sys:Reduce()
-        sys:Print()
+        local vstart = sys:Reduce()
+        --sys:Print()
+        --print("================= Solving =================")
+        local sol = sys:Solve(vstart)
+        --print("================= Final result =================")
+        --for _,e in pairs(sol) do
+        --[[   io.write(e.." ")
+        end
         print()
+        print(sys:Verify(sol))
+        print(arraySum(sol))
+        print()]]
+        result = result + arraySum(sol)
     end
+    return result
 end
 
 print(Part2())
