@@ -6,7 +6,7 @@ indicators = {}
 buttons = {}
 requirements = {}
 
-f = io.open("smallPuzzle.txt")
+f = io.open("puzzle.txt")
 line = f:read("*line")
 while line do
     -- indicators
@@ -155,7 +155,11 @@ end
 
 function Part2()
     local result = 0
+    local size = #requirements
     for i,req in pairs(requirements) do
+        local str = i.."/"..size
+        io.write(str)
+        io.flush()
         --print("=====================================")
         --print("================= "..i.." =================")
         --print("=====================================")
@@ -175,6 +179,7 @@ function Part2()
         print(arraySum(sol))
         print()]]
         result = result + arraySum(sol)
+        for i=1,#str do io.write("\b \b") end
     end
     return result
 end
