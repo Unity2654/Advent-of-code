@@ -237,7 +237,7 @@ end
 -- variablesIndex : index of the variables in the coefficients array
 -- index : current variable being treated
 -- lenght : number of variables in total
-function System:DeepSolve(variables, variablesIndex, index, length)
+function System:DeepSolve(variables, variablesIndex, index, length, limit)
     -- All variables have been defined
     if (index+variablesIndex-1) > length then
         local result = {}
@@ -255,9 +255,9 @@ function System:DeepSolve(variables, variablesIndex, index, length)
         print()]]
 
         for i,e in pairs(self.coefficients) do
-            local value = self:FindRemainer(i, result) / e[i]
+            local value = sanitizeValue(self:FindRemainer(i, result) / e[i])
             --print("row "..i.." found reminder of "..value)
-            if value < 0 or sanitizeValue(value) ~= value then return nil end
+            if value < 0 or sanitizeValue(math.abs(math.floor(value) - value)) ~= 0 then return nil end
             result[i] = value
         end
 
@@ -276,7 +276,7 @@ function System:DeepSolve(variables, variablesIndex, index, length)
             maximum = math.abs(e)
         end
     end
-    --maximum = math.max(maximum, 100)
+    maximum = maximum * limit
     --print("index "..index.." found maximum of |"..maximum.."| = "..math.abs(maximum).." possibilities")
 
     local result = nil
@@ -284,7 +284,7 @@ function System:DeepSolve(variables, variablesIndex, index, length)
     for i = 0,math.abs(maximum) do
         local varcopy = copy(variables)
         varcopy[index] = i
-        local res = self:DeepSolve(varcopy, variablesIndex, index + 1, length)
+        local res = self:DeepSolve(varcopy, variablesIndex, index + 1, length, limit)
         if res then
             local s = sum(res)
             if ((not result) or s < sresult) then
@@ -296,13 +296,13 @@ function System:DeepSolve(variables, variablesIndex, index, length)
     return result
 end
 
-function System:Solve(variablesIndex)
+function System:Solve(variablesIndex, limit)
     local vars = {}
     local length = #(self.  coefficients[1])
     for i=1,(length-variablesIndex) do
         table.insert(vars,0)
     end
-    return self:DeepSolve(vars, variablesIndex, 1, length)
+    return self:DeepSolve(vars, variablesIndex, 1, length, limit)
 end
 
 function System:Verify(solution)

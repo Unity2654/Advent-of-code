@@ -6,7 +6,7 @@ indicators = {}
 buttons = {}
 requirements = {}
 
-f = io.open("smallPuzzle.txt")
+f = io.open("puzzle.txt")
 line = f:read("*line")
 while line do
     -- indicators
@@ -169,17 +169,23 @@ function Part2()
         local vstart = sys:Reduce()
         --sys:Print()
         --print("================= Solving =================")
-        local sol = sys:Solve(vstart)
+        local sol = nil
+        local limit = 1
+        while not sol do
+            sol = sys:Solve(vstart,limit)
+            limit = limit + 1
+        end
         --print("================= Final result =================")
-        --for _,e in pairs(sol) do
-        --[[   io.write(e.." ")
+        --[[for _,e in pairs(sol) do
+           io.write(e.." ")
         end
         print()
         print(sys:Verify(sol))
         print(arraySum(sol))
-        print()]]
+        print()]]--
         result = result + arraySum(sol)
         for i=1,#str do io.write("\b \b") end
+        --io.stderr:write(result.."\n")
     end
     return result
 end
