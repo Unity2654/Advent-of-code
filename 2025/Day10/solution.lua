@@ -157,35 +157,17 @@ function Part2()
     local result = 0
     local size = #requirements
     for i,req in pairs(requirements) do
-        local str = i.."/"..size
-        io.write(str)
-        io.flush()
-        --print("=====================================")
-        --print("================= "..i.." =================")
-        --print("=====================================")
         local sys = System.new()
         local vec = getVectors(buttons[i], #req)
         makeSystem(sys, vec, req)
         local vstart = sys:Reduce()
-        --sys:Print()
-        --print("================= Solving =================")
         local sol = nil
         local limit = 2
         while not sol do
             sol = sys:Solve(vstart,limit)
             limit = limit + 1
         end
-        --print("================= Final result =================")
-        --[[for _,e in pairs(sol) do
-           io.write(e.." ")
-        end
-        print()
-        print(sys:Verify(sol))
-        print(arraySum(sol))
-        print()]]--
         result = result + arraySum(sol)
-        for i=1,#str do io.write("\b \b") end
-        --io.stderr:write(result.."\n")
     end
     return result
 end

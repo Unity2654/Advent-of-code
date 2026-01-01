@@ -131,7 +131,6 @@ function System:Reduce()
     local n = #(coefficients[1])
 
     -- Gaussian reduction
-    --print("-- Part 1 --\n")
     while row <= m and column <= n do
         local pivot, index = findPivot(coefficients, row ,column)
         if pivot == 0 then
@@ -150,18 +149,13 @@ function System:Reduce()
             row = row + 1
             column = column + 1
         end
-        --self:Print()
-        --print()
     end
 
-    --print("-- Part 2 --\n")
     -- Reducing the result as much as possible, to end up with as much constraints as possible
     row = m
     while row >= 1 do
-        --print("row : "..row)
         local index,value = findConstraint(coefficients[row])
         if value then
-            --print("found constraint "..value.." at index "..index)
             -- Removing the coefficient from all the other lines
             for i = (row-1), 1, -1 do
                 local c = coefficients[i][index]
@@ -177,11 +171,8 @@ function System:Reduce()
             self:Divide(row, value)
         end
         row = row - 1
-        --self:Print()
-        --print()
     end
 
-    --print("-- Part 3 --\n")
     -- Putting the non-constraints to the end
     column = 1
     row = 1
@@ -213,12 +204,9 @@ end
 
 function System:FindRemainer(index, values)
     local acc = 0
-    --io.write("At line "..index.." with [ ")
     for i,e in pairs(self.coefficients[index]) do
         acc = acc + values[i] * e
-        --io.write(values[i].."*"..e.." ")
     end
-    --print("] found sum of "..acc.." with reminder of "..self.results[index] - acc)
     return self.results[index] - acc
 end
 
@@ -233,10 +221,6 @@ end
 ---
 -- Solving the system using a DFS
 --
--- variables : variables already defined
--- variablesIndex : index of the variables in the coefficients array
--- index : current variable being treated
--- lenght : number of variables in total
 function System:DeepSolve(variables, variablesIndex, index, length, limit)
     -- All variables have been defined
     if (index+variablesIndex-1) > length then
@@ -248,25 +232,12 @@ function System:DeepSolve(variables, variablesIndex, index, length, limit)
                 table.insert(result, variables[i - variablesIndex+1])
             end
         end
-        --[[io.write("initial result : ")
-        for _,e in pairs(result) do
-            io.write(e.." ")
-        end
-        print()]]
 
         for i,e in pairs(self.coefficients) do
             local value = sanitizeValue(self:FindRemainer(i, result) / e[i])
-            --print("row "..i.." found reminder of "..value)
             if value < 0 or sanitizeValue(math.abs(math.floor(value) - value)) ~= 0 then return nil end
             result[i] = value
         end
-
-        --[[for _,e in pairs(result) do
-            io.write(e.." ")
-        end
-        io.write("=> "..sum(result))
-        print()
-        print()]]
         return result
     end
     -- Recursive calls
@@ -277,7 +248,6 @@ function System:DeepSolve(variables, variablesIndex, index, length, limit)
         end
     end
     maximum = maximum * limit
-    --print("index "..index.." found maximum of |"..maximum.."| = "..math.abs(maximum).." possibilities")
 
     local result = nil
     local sresult = 0
