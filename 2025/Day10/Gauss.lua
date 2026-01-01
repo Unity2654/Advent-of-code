@@ -115,6 +115,13 @@ local function findConstraint(coefficients)
     return nil
 end
 
+function System:ReduceRow(index)
+    local index,value = findConstraint(self.coefficients[index])
+    if value then
+        self:Divide(index, value)
+    end
+end
+
 -- Reduces the system as much as possible
 function System:Reduce()
     local coefficients = self.coefficients
@@ -162,6 +169,7 @@ function System:Reduce()
                     self:Multiply(i, mul)
                     local f = coefficients[i][index] / value
                     self:Add(i, row, -f)
+                    self:ReduceRow(i)
                 end
             end
             -- Reducing the value on the line of the constraint to be minimal
@@ -267,7 +275,7 @@ function System:DeepSolve(variables, variablesIndex, index, length)
             maximum = math.abs(e)
         end
     end
-
+    --maximum = math.min(maximum, 150)
     --print("index "..index.." found maximum of |"..maximum.."| = "..math.abs(maximum).." possibilities")
 
     local result = nil

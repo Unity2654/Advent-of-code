@@ -6,7 +6,7 @@ indicators = {}
 buttons = {}
 requirements = {}
 
-f = io.open("puzzle.txt")
+f = io.open("smallPuzzle.txt")
 line = f:read("*line")
 while line do
     -- indicators
