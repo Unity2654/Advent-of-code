@@ -170,7 +170,7 @@ function Part2()
         --sys:Print()
         --print("================= Solving =================")
         local sol = nil
-        local limit = 1
+        local limit = 2
         while not sol do
             sol = sys:Solve(vstart,limit)
             limit = limit + 1
@@ -191,3 +191,5 @@ function Part2()
 end
 
 print(Part2())
+
+-- 16982
