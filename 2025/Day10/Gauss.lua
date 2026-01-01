@@ -247,16 +247,16 @@ function System:DeepSolve(variables, variablesIndex, index, length)
                 table.insert(result, variables[i - variablesIndex+1])
             end
         end
-        --io.write("initial result : ")
-        --for _,e in pairs(result) do
-        --    io.write(e.." ")
-        --end
-        --print()
+        --[[io.write("initial result : ")
+        for _,e in pairs(result) do
+            io.write(e.." ")
+        end
+        print()]]
 
         for i,e in pairs(self.coefficients) do
             local value = self:FindRemainer(i, result) / e[i]
             --print("row "..i.." found reminder of "..value)
-            if value < 0 or math.floor(value) ~= value then return nil end
+            if value < 0 or sanitizeValue(value) ~= value then return nil end
             result[i] = value
         end
 
