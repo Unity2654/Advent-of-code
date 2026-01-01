@@ -116,7 +116,7 @@ local function findConstraint(coefficients)
 end
 
 function System:ReduceRow(index)
-    local index,value = findConstraint(self.coefficients[index])
+    local _,value = findConstraint(self.coefficients[index])
     if value then
         self:Divide(index, value)
     end
@@ -161,6 +161,7 @@ function System:Reduce()
         --print("row : "..row)
         local index,value = findConstraint(coefficients[row])
         if value then
+            --print("found constraint "..value.." at index "..index)
             -- Removing the coefficient from all the other lines
             for i = (row-1), 1, -1 do
                 local c = coefficients[i][index]
@@ -275,7 +276,7 @@ function System:DeepSolve(variables, variablesIndex, index, length)
             maximum = math.abs(e)
         end
     end
-    --maximum = math.min(maximum, 150)
+    --maximum = math.max(maximum, 100)
     --print("index "..index.." found maximum of |"..maximum.."| = "..math.abs(maximum).." possibilities")
 
     local result = nil
