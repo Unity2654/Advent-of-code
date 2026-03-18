@@ -30,7 +30,7 @@ for index,_ in ipairs(left) do
 	sum = sum + math.abs(left[index] - right[index])
 end
 
---print(sum)
+print("Part 1 : " ..sum)
 
 --
 -- Part 2
@@ -59,4 +59,4 @@ for _,number in ipairs(left) do
 		sum = sum + number*frequency[number]
 	end
 end
-print(sum)
+print("Part 2 : "..sum)

@@ -15,7 +15,7 @@ for w in program:gmatch("(mul%(%d+,%d+%))") do
 	sum = sum + mul
 end
 
---print(sum)
+print("Part 1 : "..sum)
 
 --
 -- Part 2
@@ -32,4 +32,4 @@ for w in program:gmatch("(mul%(%d+,%d+%))") do
 	end
 	res = res + mul
 end
-print(res)
+print("Part 2 : "..res)

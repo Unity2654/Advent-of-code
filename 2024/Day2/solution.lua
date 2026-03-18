@@ -42,7 +42,7 @@ for _,r in ipairs(reports) do
 	end		
 end
 
-print(safe)
+print("Part 1 : "..safe)
 
 --
 -- Part 2
@@ -71,5 +71,5 @@ for _,r in pairs(reports) do
 		end
 	end
 end
-print(damp)
+print("Part 2 : "..damp)
 		
