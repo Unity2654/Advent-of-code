@@ -1,5 +1,5 @@
 -- Parsing the input file
-f = io.open("smallPuzzle.txt")
+f = io.open("puzzle.txt")
 input = {}
 line = f:read("*line")
 
@@ -62,7 +62,7 @@ for i=1,25 do
     inp = res
 end
 
-print(#inp)
+print("Part 1 : "..#inp)
 
 --
 -- Part 2
@@ -100,4 +100,4 @@ sum = 0
 for _,a in ipairs(inp2) do
     sum = sum + count(a,0)
 end
-print(sum)
+print("Part 2 : "..sum)

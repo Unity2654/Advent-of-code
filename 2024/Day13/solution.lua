@@ -43,7 +43,7 @@ for i,m in ipairs(machines) do
         tokens = tokens + 3*a + b
     end
 end
-print(math.floor(tokens))
+print("Part 1 : "..math.floor(tokens))
 
 --
 -- Part 2
@@ -64,4 +64,4 @@ for i,m in ipairs(machines) do
     end
 end
 
-print(math.floor(moreTokens))
+print("Part 2 : "..math.floor(moreTokens))

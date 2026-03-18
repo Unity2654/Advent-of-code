@@ -103,7 +103,7 @@ for i,g in ipairs(gardens) do
         end
     end
 end
-print(price)
+print("Part 1 : "..price)
 
 --
 -- Part 2
@@ -205,4 +205,4 @@ for i,g in ipairs(gardens2) do
         end
     end
 end
-print(bulkprice)
+print("Part 2 : "..bulkprice)

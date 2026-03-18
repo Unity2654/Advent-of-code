@@ -1,5 +1,5 @@
 -- Parsing the input file
-f = io.open("smallPuzzle.txt")
+f = io.open("puzzle.txt")
 input = {}
 line = f:read("*line")
 
@@ -65,7 +65,7 @@ res = 0
 for _,th in ipairs(trailheads) do
     res = res + trail(th[1],th[2])
 end
-print(res)
+print("Part 1 : " ..res)
 
 --
 -- Part 2
@@ -97,4 +97,4 @@ res = 0
 for _,th in ipairs(trailheads) do
     res = res + trailv2(th[1],th[2])
 end
-print(res)
+print("Part 2 : "..res)
