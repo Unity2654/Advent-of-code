@@ -26,4 +26,4 @@ Lua/PriorityQueue.lua : unknown author. If you are the author of this software, 
 Solved in 2024 using the LUA language.
 
 # 2025
-Currently solving 2025 using the LUA language.
+Solved in 2025 using the LUA language.
