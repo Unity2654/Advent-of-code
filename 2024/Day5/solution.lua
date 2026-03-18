@@ -67,7 +67,7 @@ for _,update in ipairs(updates) do
 	end
 end
 
---print(sum)
+print("Part 1 : "..sum)
 
 -- 
 -- Part 2 
@@ -94,4 +94,4 @@ for _,update in ipairs(updates) do
 	end
 end
 
-print(sum2)
+print("Part 2 : "..sum2)

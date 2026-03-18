@@ -44,7 +44,7 @@ for i,t in ipairs(testValues) do
     end
 end
 
-print(res)
+print("Part 1 : "..res)
 
 --
 -- Part 2
@@ -69,4 +69,4 @@ for i,t in ipairs(testValues) do
     end
 end
 
-print(res2)
+print("Part 2 : "..res2)

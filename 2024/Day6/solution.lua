@@ -89,7 +89,7 @@ while true do
 	end
 end
 
-print(countX())
+print("Part 1 : "..countX())
 
 --
 -- Part 2
@@ -135,6 +135,6 @@ for i,put in ipairs(input) do
 	end
 end
 ::fin::
-print(res)
+print("Part 2 : "..res)
 
 

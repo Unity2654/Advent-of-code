@@ -49,7 +49,7 @@ for i,sub in ipairs(data) do
 		end
 	end
 end
-print(xmases)
+print("Part 1 : " .. xmases)
 
 --
 -- Part 2
@@ -82,4 +82,4 @@ for i,sub in ipairs(data) do
 	end
 end
 
-print(Xmases)
+print("Part 2 : " .. Xmases)

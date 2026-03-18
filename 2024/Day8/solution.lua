@@ -54,7 +54,7 @@ function findAntiNodes(antennae)
 end
 
 function countAntinodes()
-    sum = 0
+    local sum = 0
     for _,e in ipairs(input) do
         for _,f in ipairs(e) do
             if(f == "#") then
@@ -65,11 +65,11 @@ function countAntinodes()
     return sum
 end
 
---for _,a in pairs(antennae) do
---    findAntiNodes(a)
---end
+for _,a in pairs(antennae) do
+    findAntiNodes(a)
+end
 
---print(countAntinodes())
+print("Part 1 : "..countAntinodes())
 
 --
 -- Part 2
@@ -117,4 +117,4 @@ for _,a in pairs(antennae) do
     findAntiNodesv2(a)
 end
 
-print(countAntinodes())
+print("Part 2 : "..countAntinodes())
