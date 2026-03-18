@@ -62,7 +62,7 @@ for _,r in ipairs(robots) do
     end
 end
 
-print(quadrants[1]*quadrants[2]*quadrants[3]*quadrants[4])
+print("Part1 : "..quadrants[1]*quadrants[2]*quadrants[3]*quadrants[4])
 
 --
 -- Part 2
@@ -113,4 +113,4 @@ for index,val in ipairs(variances) do
     end
 end
 
-print(minindex)
+print("Part 2 : "..minindex)
