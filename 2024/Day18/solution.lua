@@ -108,7 +108,7 @@ dest = {SIZE+1,SIZE+1}
 
 _,dist = Dijkstra(map,origin)
 
-print(dist[makeKey(dest)])
+print("Part 1 : "..dist[makeKey(dest)])
 
 --
 -- Part 2
@@ -120,4 +120,4 @@ while dist[makeKey(dest)] do
     _,dist = Dijkstra(map,origin)
 end
 sol = input[lastfell]
-print(sol[1]..","..sol[2])
+print("Part 2 : "..sol[1]..","..sol[2])

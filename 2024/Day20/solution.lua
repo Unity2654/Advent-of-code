@@ -137,7 +137,7 @@ end
 
 shortcuts = findShortCut(path,2,dist,100)
 
-print(#shortcuts)
+print("Part 1 : "..#shortcuts)
 
 --
 -- Part 2
@@ -173,4 +173,4 @@ end
 
 longcuts = findShortCutv2(path,20,dist,100)
 
-print(#longcuts)
+print("Part 2 : "..#longcuts)

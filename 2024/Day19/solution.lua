@@ -29,7 +29,7 @@ for _,p in ipairs(patterns) do
     end
 end
 
-print(#ValidPatterns)
+print("Part 1 : "..#ValidPatterns)
 
 --
 -- Part 2
@@ -78,4 +78,4 @@ for i,p in ipairs(ValidPatterns) do
     possibilities = possibilities + automaton:DFS(automaton.initial,p)
 end
 
-print(possibilities)
+print("Part 2 : "..possibilities)
