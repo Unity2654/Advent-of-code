@@ -79,7 +79,7 @@ for _,i in ipairs(input) do
     third = movements(second,routesRemote)
     res = res + numericPart(i)*#third
 end
-print(res)
+print("Part 1 : "..res)
 
 --
 -- Part 2
@@ -110,4 +110,4 @@ for _,i in ipairs(input) do
     third = throughRemotes(first,25)
     res = res + numericPart(i)*third
 end
-print(res)
+print("Part 2 : "..res)
