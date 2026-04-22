@@ -67,10 +67,12 @@ function exec(program)
     end
 end
 
+io.write("Part 1 : ")
 exec(instructions)
 print()
 
-function normalProgram(A,B,C,comp)
+function normalProgram(A,B,C)
+    local res = ""
     while A>0 do
         B=A%8
         B=B~7
@@ -78,31 +80,44 @@ function normalProgram(A,B,C,comp)
         A=A>>3
         B=B~C
         B=B~7
-        io.write(B%8)
+        res = res .. B%8
     end
+    return res
 end
 
-function ci(n)
-    i=0
-    while true do
-        if (((i%8)~7)~(i>>((i%8)))~7) == n then
-            return i
+function octalToDecimal(o)
+    local p = #o-1
+    local res = 0
+    for e in o:gmatch(".") do
+        res = res + tonumber(e) * 8 ^ p
+        p = p - 1
+    end
+    return res
+end
+
+function find(target, current)
+    if(#current > 0) then
+        local currentResult = normalProgram(octalToDecimal(current),0,0)
+        if tonumber(currentResult) == tonumber(target) then return {current,true} end -- Found result
+        tpos = -(#currentResult - 3)
+        if #currentResult >= 4 and currentResult:sub(4,4) ~= target:sub(tpos,tpos) then
+            return {current, false}
         end
-        i = i+1
     end
+    if(#current > #target) then return {current, false} end
+    for i=0,7 do
+        local res = find(target, current..i)
+        if(res[2]) then return res end
+    end
+    return {current, false}
 end
 
-function nNumbers(n)
-    for i=8^(n-1),8^(n)-1 do
-        io.write(math.floor(i)..": ")
-        normalProgram(i,0,0)
-        print()
+function printResult(result)
+    for e in result:gmatch(".") do
+        io.write(e)
     end
+    print()
 end
 
-
-nNumbers(1)
-
-normalProgram(2711734577143437)
-print()
-
+result = find("2417750340175530", "")
+print("Part 2 : "..math.tointeger(octalToDecimal(result[1])))
