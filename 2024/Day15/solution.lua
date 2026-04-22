@@ -84,7 +84,7 @@ for _,i in ipairs(instructions) do
     ::continue::
 end
 
-print(sumBoxes(grid))
+print("Part 1 : "..sumBoxes(grid))
 
 
 --
@@ -207,4 +207,4 @@ for _,i in ipairs(instructions) do
     ::continue::
 end
 
-print(sumBoxes(newgrid))
+print("Part 2 : "..sumBoxes(newgrid))

@@ -100,6 +100,7 @@ function nNumbers(n)
     end
 end
 
+
 nNumbers(1)
 
 normalProgram(2711734577143437)

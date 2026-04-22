@@ -62,7 +62,7 @@ for _,r in ipairs(robots) do
     end
 end
 
-print("Part1 : "..quadrants[1]*quadrants[2]*quadrants[3]*quadrants[4])
+print("Part 1 : "..quadrants[1]*quadrants[2]*quadrants[3]*quadrants[4])
 
 --
 -- Part 2

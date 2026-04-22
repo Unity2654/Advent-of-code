@@ -102,7 +102,7 @@ end
 
 prev,dist = Dijkstra(grid,start,{0,1})
 
-print(dist[makeKey(dest,{-1,0})])
+print("Part 1 : "..dist[makeKey(dest,{-1,0})])
 
 
 --
@@ -137,4 +137,4 @@ for k,v in pairs(dist) do
     end
 end
 
-print(countOs(grid))
+print("Part 2 : "..countOs(grid))
